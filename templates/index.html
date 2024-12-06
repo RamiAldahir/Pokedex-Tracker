@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Collection</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/loading.css">
+    <link rel="preload" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" as="image">
+</head>
+<body>
+    <!-- Main Page Wrapper to hold content and add side borders -->
+    <div class="page-wrapper">
+        <div class="header">
+            <!-- Dynamic generation info -->
+            <div class="generation-info" id="generation-info">
+                <!-- Placeholder for generation info -->
+                Generation: 0/0
+            </div>
+
+            <nav class="navbar">
+                <!-- Dropdown menu for generations -->
+                <select id="generation-select" onchange="loadSelectedGeneration()">
+                    <option disabled selected>Choose Generation ▾</option>
+                    <option value="1">Kanto</option>
+                    <option value="2">Johto</option>
+                    <option value="3">Hoenn</option>
+                    <option value="4">Sinnoh</option>
+                    <option value="5">Unova</option>
+                    <option value="6">Kalos</option>
+                    <option value="7">Alola</option>
+                    <option value="8">Galar</option>
+                    <option value="9">Hisui</option>
+                    <option value="10">Paldea</option>
+                </select>
+                <button id="reload-button" class="reload-button">Reload File</button>
+            </nav>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content">
+            <div id="pokemon-grid" class="pokemon-grid">
+                <!-- Pokémon will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to external JavaScript file -->
+    <script>
+        function loadSelectedGeneration() {
+            const select = document.getElementById('generation-select');
+            const generation = select.value;
+            loadGeneration(generation);
+        }
+    </script>
+    <script src="/static/script.js"></script>
+</body>
+</html>

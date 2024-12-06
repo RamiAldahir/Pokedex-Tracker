@@ -1,0 +1,56 @@
+/* Loader container for grid slots */
+.loader-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9; /* Light grey background for the grid slot */
+    border: 1px solid #ddd; /* Optional border for slot separation */
+    width: 100px; /* Adjust to match grid slot size */
+    height: 100px; /* Adjust to match grid slot size */
+    box-sizing: border-box; /* Ensure padding and border are included in dimensions */
+}
+
+/* Loader element */
+.loader {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #ff0202 50%, #fff 50%); /* Red top half, white bottom half */
+    position: relative;
+    animation: l9-0 3s linear infinite;
+    border: 1px solid black; /* Thin black border around the ball */
+}
+
+/* Inner circle inside the loader ball */
+.loader::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff; /* White circle in the middle */
+    transform: translate(-50%, -50%);
+    border: 2px solid black; /* Thin black border around the smaller circle */
+}
+
+/* Thin black line through the middle of the loader ball */
+.loader::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: black; /* Black line */
+    transform: translateY(-50%);
+}
+
+/* Animation for spinning */
+@keyframes l9-0 {
+    to {
+        transform: rotate(360deg);
+    }
+}

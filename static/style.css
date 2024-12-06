@@ -1,0 +1,204 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Page Wrapper to hold content and add side borders */
+.page-wrapper {
+    position: relative;
+    margin: 0 20px; /* Add space around the content */
+}
+
+/* Fixed side borders */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 25px; /* Border thickness */
+    background-color: #333; /* Border color */
+    z-index: 999; /* Ensure borders are on top */
+}
+
+body::before {
+    left: 0;
+}
+
+body::after {
+    right: 0;
+}
+
+/* Sticky Header */
+.header {
+    /* position: sticky; */
+    top: 0;
+    z-index: 1000;
+    background-color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px 0; /* Adjust padding for better spacing */
+}
+
+/* Generation Info */
+.generation-info {
+    position: sticky;
+    text-align: center;
+    padding: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    background-color: #444;
+}
+
+/* Navbar Styles (Dropdown Menu) */
+.navbar {
+    text-align: center;
+    background-color: #333;
+    padding: 10px 0;
+}
+
+.navbar select {
+    font-size: 1em;
+    padding: 10px;
+    color: white;
+    background-color: #444;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    appearance: none; /* Removes default dropdown styling for consistency */
+    -webkit-appearance: none; /* Safari compatibility */
+}
+
+.navbar select:hover {
+    background-color: #575757;
+}
+
+.navbar select option:disabled {
+    color: #999; /* Placeholder text color */
+    font-style: italic;
+}
+
+.reload-button {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #7c95b1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.reload-button:hover {
+    background-color: #516f92;
+}
+
+
+
+/* Content Area */
+.content {
+    padding: 20px;
+    background-color: #ffffff;
+    margin: 0 auto;
+    max-width: 1200px; /* Set a max width for larger screens */
+}
+
+/* Pokemon Grid */
+.pokemon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Pokemon Box Styling */
+.pokemon-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+.pokemon-box.collected {
+    background-color: #b3e6b3;
+    filter: none;
+}
+
+.pokemon-box.uncollected {
+    background-color: #f9f9f9;
+    filter: grayscale(100%);
+}
+
+.pokemon-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Pokemon Image */
+.pokemon-image {
+    max-width: 100%;
+    max-height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.pokemon-number {
+    font-weight: bold;
+}
+
+.pokemon-name {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .generation-info {
+        font-size: 1.1em;
+    }
+
+    .navbar select {
+        font-size: 0.9em;
+    }
+
+    .pokemon-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .generation-info {
+        font-size: 1em;
+    }
+
+    .navbar select {
+        font-size: 0.85em;
+        padding: 10px;
+    }
+
+    .pokemon-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .generation-info {
+        font-size: 0.9em;
+        padding: 8px;
+    }
+
+    .navbar select {
+        font-size: 0.8em;
+        padding: 8px;
+    }
+
+    .pokemon-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+}
