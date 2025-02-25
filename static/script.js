@@ -176,3 +176,60 @@ document.addEventListener("DOMContentLoaded", () => {
     preloadImages(1, 151);
     loadGeneration(1);
 });
+
+
+// Allow uploading of your own file path
+document.addEventListener("DOMContentLoaded", () => {
+    const fileInput = document.getElementById("file-input");
+    const uploadButton = document.getElementById("upload-button");
+    const fileNameDisplay = document.getElementById("file-name");
+
+    uploadButton.addEventListener("click", () => {
+        fileInput.click(); // Simulate clicking the hidden file input
+    });
+
+    fileInput.addEventListener("change", async () => {
+        if (fileInput.files.length === 0) {
+            fileNameDisplay.textContent = ''; // Clear file name if no file is selected
+            return;
+        }
+
+        const fileName = fileInput.files[0].name; // Get the name of the selected file
+        fileNameDisplay.textContent = `Selected file: ${fileName}`;
+
+        const formData = new FormData();
+        formData.append("file", fileInput.files[0]);
+
+        // Change the button text and disable it
+        uploadButton.textContent = "Uploading...";
+        uploadButton.disabled = true;
+
+        try {
+            const response = await fetch("/api/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+
+            // If the upload was successful, alert the user and reload the page
+            if (response.ok) {
+                uploadButton.textContent = "Upload File"; // Reset button text
+                uploadButton.disabled = false; // Enable the button again
+                alert("File uploaded successfully! Reloading data...");
+                location.reload(); // Reload to reflect changes
+            } else {
+                uploadButton.textContent = "Upload Failed"; // Set button text on failure
+                uploadButton.disabled = false; // Enable the button again in case of failure
+                uploadStatus.textContent = result.message || result.error;
+            }
+        } catch (error) {
+            uploadButton.textContent = "Upload Failed"; // Set button text on error
+            uploadButton.disabled = false; // Enable the button again on error
+            uploadStatus.textContent = "Error uploading file.";
+            console.error("Upload error:", error);
+        }
+    });
+});
+
+

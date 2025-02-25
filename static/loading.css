@@ -3,11 +3,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f9f9f9; /* Light grey background for the grid slot */
-    border: 1px solid #ddd; /* Optional border for slot separation */
-    width: 100px; /* Adjust to match grid slot size */
-    height: 100px; /* Adjust to match grid slot size */
-    box-sizing: border-box; /* Ensure padding and border are included in dimensions */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    width: 100px;
+    height: 100px;
+    box-sizing: border-box;
 }
 
 /* Loader element */
