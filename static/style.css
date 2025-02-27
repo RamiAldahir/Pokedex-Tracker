@@ -4,7 +4,6 @@ body {
     padding: 0;
 }
 
-/* Page Wrapper to hold content and add side borders */
 .page-wrapper {
     position: relative;
     margin: 0 20px; /* Add space around the content */
@@ -37,7 +36,7 @@ body::after {
     z-index: 1000;
     background-color: #333;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 15px 0; /* Adjust padding for better spacing */
+    padding: 15px 0;
 }
 
 /* Generation Info */
@@ -67,7 +66,7 @@ body::after {
     border-radius: 5px;
     outline: none;
     cursor: pointer;
-    appearance: none; /* Removes default dropdown styling for consistency */
+    appearance: none;
     -webkit-appearance: none; /* Safari compatibility */
 }
 
@@ -122,7 +121,7 @@ body::after {
     padding: 20px;
     background-color: #ffffff;
     margin: 0 auto;
-    max-width: 1200px; /* Set a max width for larger screens */
+    max-width: 1200px;
 }
 
 /* Pokemon Grid */

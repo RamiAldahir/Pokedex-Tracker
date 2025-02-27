@@ -9,12 +9,9 @@
     <link rel="preload" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" as="image">
 </head>
 <body>
-    <!-- Main Page Wrapper to hold content and add side borders -->
     <div class="page-wrapper">
         <div class="header">
-            <!-- Dynamic generation info -->
             <div class="generation-info" id="generation-info">
-                <!-- Placeholder for generation info -->
                 Generation: 0/0
             </div>
 
@@ -40,7 +37,6 @@
             </nav>
         </div>
 
-        <!-- Content Area -->
         <div class="content">
             <div id="pokemon-grid" class="pokemon-grid">
                 <!-- Pokémon will be dynamically loaded here -->
@@ -48,7 +44,6 @@
         </div>
     </div>
 
-    <!-- Link to external JavaScript file -->
     <script>
         function loadSelectedGeneration() {
             const select = document.getElementById('generation-select');
