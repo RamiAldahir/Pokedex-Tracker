@@ -29,11 +29,14 @@ def upload_file():
     if file.filename == "":
         return jsonify({"error": "No selected file"}), 400
     
-    file_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
-    file.save(file_path)
+    # file_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+    # file.save(file_path)
+    from io import BytesIO
+    file_content = file.read()
     
     try:
-        pokemon_data_df = pd.read_excel(file_path)
+        # pokemon_data_df = pd.read_excel(file_path)
+        pokemon_data_df = pd.read_excel(BytesIO(file_content))
         
         # Reprocess data
         pokemon_data_by_generation.clear()
