@@ -122,6 +122,57 @@ function preloadImages(rangeStart, rangeEnd) {
     }
 }
 
+let highlightedId = null;
+
+document.getElementById("search-button").addEventListener("click", async () => {
+    const name = document.getElementById("search-input").value.trim().toLowerCase();
+    if (!name) return;
+
+    // Search in all generations
+    for (let gen = 1; gen <= 10; gen++) {
+        const data = pokemonCache[gen] || await fetch(`/api/generation/${gen}`).then(res => res.json());
+        if (!pokemonCache[gen]) pokemonCache[gen] = data;
+
+        const match = data.find(p => p.name.toLowerCase() === name);
+        if (match) {
+            document.getElementById("generation-select").value = gen;
+            await loadGeneration(gen);
+
+            // Delay to ensure grid is rendered
+            setTimeout(() => {
+                highlightPokemon(match.pokedex_number);
+            }, 200);
+            return;
+        }
+    }
+
+    alert("Pokémon not found.");
+});
+
+function highlightPokemon(dexNumber) {
+    // Remove previous highlight
+    if (highlightedId !== null) {
+        const previous = document.getElementById(`pokemon-${highlightedId}`);
+        if (previous) {
+            previous.classList.remove("highlighted");
+        }
+    }
+
+    const el = document.getElementById(`pokemon-${dexNumber}`);
+    if (el) {
+        el.classList.add("highlighted");
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        highlightedId = dexNumber;
+
+        // Click to remove highlight
+        el.addEventListener("click", function removeHighlightOnce() {
+            el.classList.remove("highlighted");
+            highlightedId = null;
+            el.removeEventListener("click", removeHighlightOnce);
+        });
+    }
+}
 
 const typeColors = {
     normal: "#B3B2AB",
@@ -172,8 +223,11 @@ async function updatePokemonColors(pokemonId, isCollected) {
 }
 
 // Preload Gen 1 sprites and load Gen 1 data on page load
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     preloadImages(1, 151);
+    for (let gen = 1; gen <= 10; gen++) {
+        await prefetchGeneration(gen);
+    }
     loadGeneration(1);
 });
 
