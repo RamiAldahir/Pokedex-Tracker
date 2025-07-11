@@ -244,11 +244,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fileInput.addEventListener("change", async () => {
         if (fileInput.files.length === 0) {
-            fileNameDisplay.textContent = ''; // Clear file name if no file is selected
+            fileNameDisplay.textContent = '';
             return;
         }
 
-        const fileName = fileInput.files[0].name; // Get the name of the selected file
+        const fileName = fileInput.files[0].name;
         fileNameDisplay.textContent = `Selected file: ${fileName}`;
 
         const formData = new FormData();
@@ -268,22 +268,93 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // If the upload was successful, alert the user and reload the page
             if (response.ok) {
-                uploadButton.textContent = "Upload File"; // Reset button text
-                uploadButton.disabled = false; // Enable the button again
-                alert("File uploaded successfully! Reloading data...");
-                location.reload(); // Reload to reflect changes
+                uploadButton.textContent = "Upload File";
+                uploadButton.disabled = false;
+                uploadButton.textContent = "Upload Successful!";
+                // alert("File uploaded successfully! Reloading data...");
+                location.reload();
             } else {
-                uploadButton.textContent = "Upload Failed"; // Set button text on failure
-                uploadButton.disabled = false; // Enable the button again in case of failure
+                uploadButton.textContent = "Upload Failed";
+                uploadButton.disabled = false;
                 uploadStatus.textContent = result.message || result.error;
             }
         } catch (error) {
-            uploadButton.textContent = "Upload Failed"; // Set button text on error
-            uploadButton.disabled = false; // Enable the button again on error
+            uploadButton.textContent = "Upload Failed";
+            uploadButton.disabled = false;
             uploadStatus.textContent = "Error uploading file.";
             console.error("Upload error:", error);
         }
     });
 });
+
+// Show a floating card box when clicmig on a pokemon.
+// Select if they are collected or not
+document.addEventListener("DOMContentLoaded", () => {
+    const grid = document.getElementById("pokemon-grid");
+
+    grid.addEventListener("click", (event) => {
+        const box = event.target.closest(".pokemon-box");
+        if (!box) return;
+
+        const pokedexNumber = parseInt(box.dataset.pokedex, 10);
+        let selectedPokemon = null;
+        let selectedGen = null;
+
+        for (let gen = 1; gen <= 10; gen++) {
+            const data = pokemonCache[gen];
+            if (!data) continue;
+            const match = data.find(p => p.pokedex_number === pokedexNumber);
+            if (match) {
+                selectedPokemon = match;
+                selectedGen = gen;
+                break;
+            }
+        }
+
+        if (!selectedPokemon) return;
+
+        const existingCard = document.querySelector(".floating-card");
+        if (existingCard) existingCard.remove();
+
+        const card = document.createElement("div");
+        card.className = "floating-card";
+        card.innerHTML = `
+            <strong>#${selectedPokemon.pokedex_number.toString().padStart(3, '0')} ${selectedPokemon.name}</strong><br>
+            <label>
+                <input type="checkbox" ${selectedPokemon.collected ? "checked" : ""}> Collected
+            </label>
+        `;
+
+        // Position at mouse
+        card.style.top = `${event.pageY + 10}px`;
+        card.style.left = `${event.pageX + 10}px`;
+
+        document.body.appendChild(card);
+
+        const outsideClickHandler = (e) => {
+            if (!card.contains(e.target)) {
+                card.remove();
+                document.removeEventListener("click", outsideClickHandler);
+            }
+        };
+        setTimeout(() => document.addEventListener("click", outsideClickHandler), 0);
+
+        // Handle checkbox toggle
+        const checkbox = card.querySelector("input[type='checkbox']");
+        checkbox.addEventListener("change", () => {
+            selectedPokemon.collected = checkbox.checked;
+
+            const boxEl = document.getElementById(`pokemon-${selectedPokemon.pokedex_number}`);
+            boxEl.classList.toggle("collected", checkbox.checked);
+            boxEl.classList.toggle("uncollected", !checkbox.checked);
+
+            updatePokemonColors(selectedPokemon.pokedex_number, checkbox.checked);
+
+            const collectedCount = pokemonCache[selectedGen].filter(p => p.collected).length;
+            updateGenerationInfo(selectedGen, collectedCount, pokemonCache[selectedGen].length);
+        });
+    });
+});
+
 
 

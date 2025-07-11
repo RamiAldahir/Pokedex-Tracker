@@ -46,6 +46,17 @@
         </div>
     </div>
 
+    <div id="pokemon-card" class="floating-card hidden">
+    <div class="card-content">
+        <span id="card-name"></span>
+        <div>
+            <input type="checkbox" id="collected-checkbox">
+            <label for="collected-checkbox">Collected</label>
+        </div>
+        <button id="close-card">Close</button>
+    </div>
+    </div>
+
     <script>
         function loadSelectedGeneration() {
             const select = document.getElementById('generation-select');

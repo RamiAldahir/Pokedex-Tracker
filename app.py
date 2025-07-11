@@ -74,5 +74,21 @@ def api_get_generation(generation):
         return jsonify({"error": "Invalid generation number"}), 400
     return jsonify(pokemon_data_by_generation.get(generation, []))
 
+@app.route("/api/update", methods=["POST"])
+def update_collected_status():
+    data = request.get_json()
+    dex_number = data.get("pokedex_number")
+    collected = data.get("collected", False)
+
+    # Update in-memory structure
+    for gen_data in pokemon_data_by_generation.values():
+        for poke in gen_data:
+            if poke["pokedex_number"] == dex_number:
+                poke["collected"] = collected
+                return jsonify({"message": "Status updated"}), 200
+
+    return jsonify({"error": "Pokémon not found"}), 404
+
+
 if __name__ == "__main__":
     app.run(debug=True)
